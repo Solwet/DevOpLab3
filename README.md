@@ -309,4 +309,101 @@ managed1 : ok=7 changed=4 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
 
 **Ожидаемый результат:** успешный ответ "pong" от управляемого хоста
 
+---
+
+### Задание 2: Базовые ad-hoc команды
+1. Получите информацию о ядрах CPU управляемого хоста:
+   ```bash
+   ansible -i inventory.ini managed1 -m setup -a "filter=ansible_processor_cores"
+   ```
+
+   <img width="1403" height="205" alt="image" src="https://github.com/user-attachments/assets/328f544b-a412-4e91-a032-ca5b92e748f1" />
+
+
+2. Проверьте свободное место на диске:
+   ```bash
+   ansible -i inventory.ini managed1 -m command -a "df -h"
+   ```
+
+   <img width="1034" height="293" alt="image" src="https://github.com/user-attachments/assets/9000d712-c2ae-4110-a33f-02d405baca70" />
+
+
+3. Получите список всех пользователей:
+   ```bash
+   ansible -i inventory.ini managed1 -m command -a "cat /etc/passwd"
+   ```
+
+  <img width="1211" height="655" alt="image" src="https://github.com/user-attachments/assets/af5dce3b-eb36-45cd-8aec-fd1fc1076105" />
+
+   
+
+4. Измените временную зону хоста на UTC:
+   ```bash
+   ansible -i inventory.ini managed1 -m command -a "timedatectl set-timezone UTC"
+   ```
+
+   <img width="1475" height="85" alt="image" src="https://github.com/user-attachments/assets/6a6eab1c-9da6-4a14-ac33-dc5d1c0b813a" />
+
+
+**Ожидаемый результат:** вывод команд без ошибок
+
+---
+
+### Задание 3: Работа с файлами
+1. Создайте новый playbook `task3_files.yml`:
+   ```yaml
+   ---
+   - name: Work with files
+     hosts: managed_hosts
+     tasks:
+       - name: Create multiple directories
+         file:
+           path: /tmp/{{ item }}
+           state: directory
+           mode: '0755'
+         loop:
+           - test_dir1
+           - test_dir2
+           - test_dir3
+   
+       - name: Create files in directories
+         copy:
+           content: "This is {{ item }} file\n"
+           dest: /tmp/{{ item }}/content.txt
+         loop:
+           - test_dir1
+           - test_dir2
+           - test_dir3
+   
+       - name: Display files
+         command: cat /tmp/{{ item }}/content.txt
+         loop:
+           - test_dir1
+           - test_dir2
+           - test_dir3
+         register: file_content
+   
+       - name: Show file contents
+         debug:
+           msg: "{{ item.stdout }}"
+         loop: "{{ file_content.results }}"
+   ```
+
+<img width="929" height="663" alt="image" src="https://github.com/user-attachments/assets/31ac09e5-53e2-426d-af7f-a7f7cb63c21a" />
+
+   
+
+2. Запустите playbook:
+   ```bash
+   ansible-playbook -i inventory.ini task3_files.yml
+   ```
+
+
+   <img width="1454" height="579" alt="image" src="https://github.com/user-attachments/assets/6a405234-1aec-4da2-a82a-76235958ef02" />
+
+
+**Ожидаемый результат:** три директории с файлами, созданные на управляемом хосте
+
+---
+
 
