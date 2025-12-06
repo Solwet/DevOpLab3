@@ -279,3 +279,34 @@ managed1 : ok=7 changed=4 unreachable=0 failed=0 skipped=0 rescued=0 ignored=0
 ```
 
 ---
+
+## 8. Задания для выполнения
+
+### Задание 1: Базовое подключение
+1. Установите Ansible на вашей машине
+
+<img width="1333" height="301" alt="image" src="https://github.com/user-attachments/assets/4c3229c2-8c0f-47be-8a49-5734ac65b0ec" />
+
+3. Сгенерируйте SSH ключевую пару
+   
+<img width="842" height="139" alt="image" src="https://github.com/user-attachments/assets/6d5fc878-b156-4b74-94b4-6c94ef3180c3" />
+
+5. Создайте инвентарный файл `inventory.ini`
+
+<img width="1462" height="323" alt="image" src="https://github.com/user-attachments/assets/caf22b97-6977-4aa5-b421-687171e7ff47" />
+
+
+6. Проверьте подключение командой `ansible-inventory --list`
+
+<img width="992" height="630" alt="image" src="https://github.com/user-attachments/assets/7bd9ce5d-4134-43c9-b3c9-1ec4227e5a92" />
+
+
+
+7. Выполните ping к управляемому хосту
+
+<img width="949" height="148" alt="image" src="https://github.com/user-attachments/assets/affd2f89-584b-40cd-91d5-14fa246573c2" />
+
+
+**Ожидаемый результат:** успешный ответ "pong" от управляемого хоста
+
+
